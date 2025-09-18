@@ -1,17 +1,20 @@
-import React from 'react'
-import Image from 'next/image'
+import React from 'react';
+import Image from 'next/image';
 
-const NotesCard = () => {
+export default function NoteCard({ title, description, content,imgUrl,givenBy }) {
+
+  const preview = content.length > 100 ? content.slice(0, 100) + '...' : content;
+
   return (
-      <div class="xl:w-1/4 md:w-1/2 p-4">
-          <div class="bg-gray-100 p-6 rounded-lg">
-              <Image class="h-40 rounded w-full object-cover object-center mb-6" src="https://dummyimage.com/722x402" alt="content" />
-                  <h3 class="tracking-widest text-indigo-500 text-xs font-medium title-font">SUBTITLE</h3>
-                  <h2 class="text-lg text-gray-900 font-medium title-font mb-4">Great Pyramid of Giza</h2>
-                  <p class="leading-relaxed text-base">Fingerstache flexitarian street art 8-bit waistcoat. Distillery hexagon disrupt edison bulbche.</p>
-          </div>
-        </div>
-  )
+    <div className="w-80 mx-auto border-2 border-neutral-700 rounded-xl shadow-md overflow-hidden text-white">
+      <div className="h-48 w-full object-cover overflow-hidden">
+        <Image src={imgUrl} alt="" width={1000} height={1000}></Image>
+      </div>
+      <div className="p-6">
+        <h2 className="text-xl font-semibold ">{title}</h2>
+        <p className="mt-2">{description}</p>
+        <p className="mt-4 text-gray-500 text-sm">Given by: <span className="font-medium">{givenBy}</span></p>
+      </div>
+    </div>
+  );
 }
-
-export default NotesCard
