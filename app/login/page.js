@@ -13,7 +13,7 @@ export default function LoginPage() {
     const [error, setError] = useState(null)
 
     useEffect(() => {
-        if (status === "authenticated") {
+        if (session) {
             router.push("/dashboard")
         }
     }, [status, router])
