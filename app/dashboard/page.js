@@ -6,11 +6,14 @@ import Link from 'next/link'
 import Sidebar from '@/components/Sidebar'
 import askImage from '@/public/ask.svg'
 import { useRouter } from 'next/navigation'
+import AskQuestionModal from '@/components/AskQuestionModal'
 
 const dashboard = () => {
 
     const { data: session, status } = useSession();
+    const [modalOpen, setModalOpen] = useState(false)
     const [dbuser, setDbUser] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
     const router = useRouter()
 
     let totalAILimit = 5
@@ -22,14 +25,11 @@ const dashboard = () => {
     let questionsAsked = 0
     let questionsAnswered = 0
 
-    useEffect(() => {
-        if (!session) {
-            router.push("/")
-        }
-    }, [status, router])
+
 
     useEffect(() => {
         if (session?.user?.email) {
+            setUserEmail(session.user.email);
             fetch(`/api/users?email=${session.user.email}`)
                 .then(res => res.json())
                 .then(data => setDbUser(data))
@@ -38,7 +38,17 @@ const dashboard = () => {
             setDbUser(null)
         }
     }, [session]);
+
+    useEffect(() => {
+
+        if (!session && status !== "loading") {
+            router.push("/")
+        }
+
+    }, [status, router])
+
     if (session && session.user) {
+        
         name = dbuser?.name || "Not Loaded"
         level = dbuser?.level || 1
         points = dbuser?.points || 0
@@ -69,16 +79,18 @@ const dashboard = () => {
                     <div id="quickLinks" className='w-full h-auto col-span-full'>
                         <h1 className='text-3xl mt-2'>Quick Links</h1>
                         <div className='grid grid-cols-6 gap-4 mt-4'>
+                            <button onClick={() => setModalOpen(true)} className="cursor-pointer">
+                                <div className='flex flex-col justify-center items-center p-4'>
+                                    <Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="ask"></Image>
+                                    <h3 className="text-white font-bold py-2 px-4 text-center">Ask a Question</h3>
+                                </div>
+                            </button>
                             <div className='flex flex-col justify-center items-center p-4'>
-                                <Link href="/dashboard"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="ask"></Image></Link>
-                                <h3 className="text-white font-bold py-2 px-4 text-center">Ask a Question</h3>
-                            </div>
-                            <div className='flex flex-col justify-center items-center p-4'>
-                                <Link href="/dashboard"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="view"></Image></Link>
+                                <Link href="/questions"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="view"></Image></Link>
                                 <h3 className="text-white font-bold py-2 px-4 text-center">View Questions</h3>
                             </div>
                             <div className='flex flex-col justify-center items-center p-4'>
-                                <Link href="/dashboard"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="notes"></Image></Link>
+                                <Link href="/notes"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="notes"></Image></Link>
                                 <h3 className="text-white font-bold py-2 px-4 text-center">Notes</h3>
                             </div>
                         </div>
@@ -87,6 +99,7 @@ const dashboard = () => {
 
                 </div>
             </div>
+            <AskQuestionModal isOpen={modalOpen} onClose={() => setModalOpen(false)} email={userEmail} />
         </main>
     )
 }
