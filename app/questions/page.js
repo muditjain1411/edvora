@@ -1,29 +1,41 @@
-import React from 'react'
+'use client'
+import { React, useState, useEffect } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
 import QuestionCard from '@/components/QuestionCard'
 
+
 const questions = () => {
+    const [questions, setQuestions] = useState([]);
+    useEffect(() => {
+        const fetchQuestions = async () => {
+            const response = await fetch('/api/questions');
+            const data = await response.json();
+            setQuestions(data);
+        };
+        fetchQuestions();
+    }, []);
+    console.log(questions);
+
     return (
         <>
             <main className='text-white'>
-                <h1 className='text-3xl'>Questions</h1>
-                <p id="QPText">Answer peer questions and earn points</p>
-
-                <div id="questions" className='flex flex-col space-y-4 mt-4'>
-
-                    <QuestionCard
-                        question="How do I fetch data in Next.js?"
-                        userName="Alice"
-                        userIcon="/alice.png"
-                        likes={45}
-                        dislikes={2}
-                    />
-
-                <QuestionCard userName="Bob Johnson" userIcon="/bob.png" question="What is the difference between padding and margin in CSS?" />
-                <QuestionCard userName="Charlie Brown" userIcon="/charlie.png" question="How can I make my website responsive?" />
-                <QuestionCard userName="Diana Prince" userIcon="/diana.png" question="What are some best practices for web accessibility?" />
+                <div className='ml-40'>
+                    <h1 className='text-3xl'>Questions</h1>
+                    <p id="QPText">Answer peer questions and earn points</p>
                 </div>
-
+                <div id="questions" className='flex flex-col space-y-4 mt-4'>
+                    {questions.slice().reverse().map((q, idx) => (
+                        <Link href={`/questions/${q._id}`} key={q._id || idx}>
+                            <QuestionCard
+                                key={q.id || idx}
+                                question={q.question}
+                                userName={q.askedBy.name}
+                                userIcon={q.askedBy.profilePic}
+                            />
+                            </Link>
+                        ))}
+                </div>
             </main>
         </>
     )

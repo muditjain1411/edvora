@@ -4,8 +4,8 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, unique: true },
     profilePic: { type: String, default: "" },
 
-    questionAsked: [{ type: mongoose.Schema.Types.ObjectId, ref: "Questions" }],
-    answerGiven: [{ type: mongoose.Schema.Types.ObjectId, ref: "Answers" }],
+    questionAsked: { type: Number, default: 0 },
+    answerGiven: { type: Number, default: 0 },
     points: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
     aiUsed: { type: Number, default: 0 },

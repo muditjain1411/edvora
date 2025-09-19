@@ -12,19 +12,29 @@ const dashboard = () => {
 
     const { data: session, status } = useSession();
     const [modalOpen, setModalOpen] = useState(false)
+    const [userData, setUserData] = useState({
+        totalAILimit: 5,
+        name: "Not Logged In",
+        level: 1,
+        points: 0,
+        aiUsed: 0,
+        profilePic: null,
+        questionsAsked: 0,
+        questionsAnswered: 0,
+
+    })
     const [dbuser, setDbUser] = useState(null);
     const [userEmail, setUserEmail] = useState(null);
     const router = useRouter()
 
-    let totalAILimit = 5
-    let name = "Not Logged In"
-    let level = 1
-    let points = 0
-    let aiUsed = 0
-    let profilePic = null
-    let questionsAsked = 0
-    let questionsAnswered = 0
-
+    // Refetch user data function
+    const refetchUserData = () => {
+            fetch(`/api/users?email=${session.user.email}`)
+                .then(res => res.json())
+                .then(data => setDbUser(data))
+                .catch(() => setDbUser(null))
+        
+    }
 
 
     useEffect(() => {
@@ -47,18 +57,33 @@ const dashboard = () => {
 
     }, [status, router])
 
-    if (session && session.user) {
-        
-        name = dbuser?.name || "Not Loaded"
-        level = dbuser?.level || 1
-        points = dbuser?.points || 0
-        aiUsed = dbuser?.aiUsed || 0
-        profilePic = dbuser?.profilePic
-        questionsAsked = dbuser?.questionsAsked || 0
-        questionsAnswered = dbuser?.questionsAnswered || 0
-    }
+    useEffect(() => {
+        if (session && dbuser) {
+            setUserData({
+                totalAILimit: 5,
+                name: dbuser.name || "Not Loaded",
+                level: dbuser.level || 1,
+                points: dbuser.points || 0,
+                aiUsed: dbuser.aiUsed || 0,
+                profilePic: dbuser.profilePic,
+                questionsAsked: dbuser.questionAsked || 0,
+                questionsAnswered: dbuser.answerGiven || 0,
+            });
+        }
+    }, [session, dbuser]);
 
-    return (
+    const {
+        totalAILimit,
+        name,
+        level,
+        points,
+        aiUsed,
+        profilePic,
+        questionsAsked,
+        questionsAnswered,
+    } = userData;
+
+    return (<>
         <main className='flex flex-row items-center justify-center text-white'>
             <Sidebar name={name} level={level} profilePic={profilePic} />
 
@@ -90,9 +115,18 @@ const dashboard = () => {
                                 <h3 className="text-white font-bold py-2 px-4 text-center">View Questions</h3>
                             </div>
                             <div className='flex flex-col justify-center items-center p-4'>
-                                <Link href="/notes"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="notes"></Image></Link>
+                                <Link href="/notes"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="view"></Image></Link>
                                 <h3 className="text-white font-bold py-2 px-4 text-center">Notes</h3>
                             </div>
+                            <AskQuestionModal
+                                isOpen={modalOpen}
+                                onClose={() => {
+                                    refetchUserData(); // Refetch user data when modal closes
+                                    setModalOpen(false);
+                                }}
+                                email={userEmail}
+                            />
+
                         </div>
 
                     </div>
@@ -101,6 +135,7 @@ const dashboard = () => {
             </div>
             <AskQuestionModal isOpen={modalOpen} onClose={() => setModalOpen(false)} email={userEmail} />
         </main>
+    </>
     )
 }
 

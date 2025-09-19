@@ -16,13 +16,7 @@ export async function GET(request) {
         return Response.json(user);
     }
     const users = await Users.find({});
-    return Response.json(users);
-
-    const questionAsked = await Questions.countDocuments({ askedBy: userId });
-    const answerGiven = await Answers.countDocuments({ answeredBy: userId });
-    users.questionsAsked = questionAsked;
-    users.questionAnswered = answerGiven;
-    await users.save();
+    
     return Response.json(users);
 }
 
