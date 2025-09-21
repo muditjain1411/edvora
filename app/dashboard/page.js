@@ -133,7 +133,6 @@ const dashboard = () => {
 
                 </div>
             </div>
-            <AskQuestionModal isOpen={modalOpen} onClose={() => setModalOpen(false)} email={userEmail} />
         </main>
     </>
     )

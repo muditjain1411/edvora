@@ -1,7 +1,6 @@
 'use client'
 import { React, useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import QuestionCard from '@/components/QuestionCard'
 
 
@@ -15,7 +14,7 @@ const questions = () => {
         };
         fetchQuestions();
     }, []);
-    console.log(questions);
+
 
     return (
         <>

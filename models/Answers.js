@@ -4,6 +4,7 @@ const AnswerSchema = new mongoose.Schema(
     {
         questionId: { type: mongoose.Schema.Types.ObjectId, ref: "Questions", required: true },
         answer: { type: String, required: true },
+        imageUrls: [{ type: String }],
         answeredBy: { type: mongoose.Schema.Types.ObjectId, ref: "Users", required: true },
         likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
         dislikes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Users" }],
