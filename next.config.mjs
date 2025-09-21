@@ -7,17 +7,20 @@ const nextConfig = {
                 hostname: 'lh3.googleusercontent.com',
                 port: '',
                 pathname: '/**',
-                search: '',
             },
             {
                 protocol: 'https',
                 hostname: 'images.unsplash.com',
                 port: '',
                 pathname: '/**',
-                search: '',
             },
-
-        ]
+            {
+                protocol: 'https',
+                hostname: 'firebasestorage.googleapis.com',
+                port: '',
+                pathname: '/**',
+            },
+        ],
     },
 };
 
