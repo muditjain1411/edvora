@@ -6,24 +6,27 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
 export default function AnswersPage() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [modalOpen, setModalOpen] = useState(false);
     const [id, setId] = useState(null);
     const [questionText, setQuestionText] = useState("");
     const [answers, setAnswers] = useState([]);
     const [userEmail, setUserEmail] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const currentId = window.location.pathname.split("/").pop();
         setId(currentId);
+        setLoading(false);
     }, []);
 
     useEffect(() => {
+        if (status === 'loading') return; // Wait for session to load
         if (session?.user?.email) {
             console.log("User email from session:", session.user.email);
             setUserEmail(session.user.email);
         }
-    }, [session]);
+    }, [session, status]);
 
     useEffect(() => {
         if (!id) return;
@@ -34,8 +37,8 @@ export default function AnswersPage() {
                 const data = await response.json();
                 console.log("Fetched question data:", data);
                 if (response.ok) {
-                    setQuestionText(data[0].question);
-                    console.log("Question text set to:", data[0].question);
+                    setQuestionText(data[0]?.question || ""); // Safe chaining
+                    console.log("Question text set to:", data[0]?.question);
                 } else {
                     console.error("Error fetching question:", data.error);
                 }
@@ -63,43 +66,66 @@ export default function AnswersPage() {
         fetchAnswers();
     }, [id]);
 
+    if (status === 'loading' || loading) {
+        return (
+            <main className="text-white m-auto mt-4 w-[80vw] border-2 border-neutral-700 rounded-lg p-6 flex items-center justify-center">
+                <p className="text-gray-400">Loading...</p>
+            </main>
+        );
+    }
+
     return (
         <main className="text-white m-auto mt-4 w-[80vw] border-2 border-neutral-700 rounded-lg p-6">
             <div className="flex justify-between mb-2">
                 <div>
                     <h1 className="text-2xl font-bold">Question:</h1>
-                    <p className="text-3xl">{questionText}</p>
+                    <p className="text-3xl">{questionText || "Loading question..."}</p>
                 </div>
-                <div>
-                    <button
-                        onClick={() => setModalOpen(true)}
-                        className="bg-neutral-700 text-white px-4 py-2 rounded-2xl cursor-pointer"
-                    >
-                        Answer the question
-                    </button>
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-2 mt-3">
-                {answers.slice().reverse().map((a, idx) => (
-                    <Link href={`/questions/${a.questionId}/${a._id}`} key={a._id || idx}>
-                        <AnswerCard
-                            answer={a.answer}
-                            username={a.answeredBy.name}
-                            likesCount={Object.keys(a.likes || {}).length || 0}
-                            dislikesCount={Object.keys(a.dislikes || {}).length || 0}
-                        />
-                    </Link>
-                ))}
-                {answers.length === 0 && (
-                    <div className="text-gray-500 mt-8 text-center w-full border-2 border-neutral-700 rounded-2xl p-4">No answers yet</div>
+                {session && (
+                    <div>
+                        <button
+                            onClick={() => setModalOpen(true)}
+                            className="bg-neutral-700 text-white px-4 py-2 rounded-2xl cursor-pointer"
+                        >
+                            Answer the question
+                        </button>
+                    </div>
                 )}
             </div>
+
+            {/* Answers Section: Only show if logged in */}
+            {session ? (
+                <div className="flex flex-col gap-2 mt-3">
+                    {answers.length > 0 ? (
+                        answers.slice().reverse().map((a, idx) => (
+                            <Link href={`/questions/${a.questionId._id}/${a._id}`} key={a._id || idx}>
+                                <AnswerCard
+                                    answer={a.answer}
+                                    username={a.answeredBy?.name || 'Anonymous'}
+                                    likesCount={(a.likes || []).length}
+                                    dislikesCount={(a.dislikes || []).length}
+                                />
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="text-gray-500 mt-8 text-center w-full border-2 border-neutral-700 rounded-2xl p-4">
+                            No answers yet
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <div className="mt-8 text-center">
+                    <p className="text-gray-400 text-lg">Please sign in to view answers.</p>
+                    <Link href="/login" className="text-blue-400 hover:underline mt-2 block">
+                        Sign in here
+                    </Link>
+                </div>
+            )}
 
             <AnswerModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
-                email={userEmail}
+                email={userEmail || undefined} // Only pass if logged in
                 questionText={questionText}
                 questionId={id}
             />
