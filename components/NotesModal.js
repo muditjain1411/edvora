@@ -57,9 +57,9 @@ export default function NotesModal({ isOpen, onClose, email }) {
 
     function handleCancel() {
         // Reset all states
-        setNote("");
         setTitle("");
         setDescription("");
+        setPdf(null);
         onClose();
     }
 
