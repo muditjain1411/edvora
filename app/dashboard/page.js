@@ -87,9 +87,15 @@ const dashboard = () => {
         achievements, // New (not displayed here; shown in achievements page)
     } = userData;
 
-    // New: Compute progress to next level (exponential formula, client-side)
-    const pointsToNextLevel = Math.floor(50 * Math.pow(1.5, level));
-    const progress = Math.min((points % pointsToNextLevel) / pointsToNextLevel * 100, 100);
+    // New: Linear increasing points system (level 2: 25, level 3: 50, ...)
+    function pointsForNextLevel(currentLevel) {
+        if (currentLevel <= 1) return 0;
+        return 25 * ((currentLevel - 1) * currentLevel) / 2;
+    }
+    const lowerBound = pointsForNextLevel(level);
+    const upperBound = pointsForNextLevel(level + 1);
+    const pointsToNextLevel = upperBound;
+    const progress = Math.min((points - lowerBound) / (upperBound - lowerBound) * 100, 100);
 
     return (<>
         <main className='flex flex-row items-center justify-center text-white'>
@@ -130,11 +136,11 @@ const dashboard = () => {
                         <h2 className='text-2xl'>Total Points</h2>
                         <div className='text-6xl font-bold text-blue-400'>{points}</div>
                     </div>
-                    {/* Existing: AI Limits (now in row 2) */}
-                    <div id="AILimitLeft" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4">
+                    
+                    {/* <div id="AILimitLeft" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4">
                         <h2 className='text-2xl'>AI Limits Left</h2>
                         <div className='text-5xl font-bold'>{totalAILimit - aiUsed}</div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Existing: Quick Links (unchanged) */}

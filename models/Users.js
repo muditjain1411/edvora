@@ -9,8 +9,8 @@ const UserSchema = new mongoose.Schema({
     answerGiven: { type: Number, default: 0 },
     notesGiven: { type: Number, default: 0 }, 
 
-    totalPoints: { type: Number, default: 0 },
-    currentPoints: { type: Number, default: 0 },
+    
+    points: { type: Number, default: 0 },
     level: { type: Number, default: 1 },
     streak: { type: Number, default: 1 }, 
     badges: [{
