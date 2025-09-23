@@ -6,7 +6,6 @@ import clientPromise from "@/lib/mongodb";
 import dbConnect from "@/lib/dbConnect";
 import Users from "@/models/Users"; 
 import { updateStreak } from "@/lib/gamification";
-// import { Resend } from "resend";
 
 const handler = NextAuth({
     adapter: MongoDBAdapter(clientPromise),
@@ -50,7 +49,7 @@ const handler = NextAuth({
                 await Users.create({
                     email: user.email,
                     name: user.name,
-                    profilePic: user.image, // match schema field name
+                    profilePic: user.image, 
                 });
             }
 
@@ -58,7 +57,7 @@ const handler = NextAuth({
                 await updateStreak(existingUser);
             }
 
-            return true; // allow sign in
+            return true; 
         },
     },
 });

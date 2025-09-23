@@ -6,9 +6,9 @@ import { awardPoints } from '@/lib/gamification'
 export async function GET(req) {
     await dbConnect();
     try {
-        const url = new URL(req.url, `http://${req.headers.host}`);  // For App Router compatibility
+    const url = new URL(req.url, `http://${req.headers.host}`);
         const noteId = url.searchParams.get("noteId");
-        const givenByEmail = url.searchParams.get("givenByEmail");  // Optional filter
+    const givenByEmail = url.searchParams.get("givenByEmail");
 
         let notesQuery;
         if (noteId) {
@@ -23,7 +23,7 @@ export async function GET(req) {
             }
             notesQuery = Notes.find({})
                 .populate("givenBy", "name email")
-                .sort({ createdAt: -1 });  // Newest first
+                .sort({ createdAt: -1 });
         } else {
             notesQuery = Notes.find({})
                 .populate("givenBy", "name email")
@@ -58,12 +58,11 @@ export async function POST(req) {
             });
         }
 
-        const { title, description, pdfUrl, email } = body;  // email is now required
+    const { title, description, pdfUrl, email } = body;
 
-        console.log("Received data:", { title, description, email, pdfUrl });  // Debug log
+   
 
         if (!title?.trim() || !description?.trim() || !pdfUrl || !email) {
-            console.log("Validation failed: Missing required fields");
             return new Response(
                 JSON.stringify({ error: "Title, description, email, and pdfUrl are required" }),
                 {
@@ -73,12 +72,12 @@ export async function POST(req) {
             );
         }
 
-        console.log("Searching for user with email:", email);
+
         const userDoc = await Users.findOne({ email });
-        console.log("Found userDoc:", userDoc ? userDoc._id : null);  // Debug log
+
 
         if (!userDoc) {
-            console.log("User  not found for email:", email);
+
             return new Response(
                 JSON.stringify({ error: "User  not found" }),
                 {
@@ -88,14 +87,14 @@ export async function POST(req) {
             );
         }
 
-        console.log("Creating note with givenBy:", userDoc._id);
+    // ...existing code...
         const newNote = await Notes.create({
             title: title.trim(),
             description: description.trim(),
             pdfUrl,
             givenBy: userDoc._id,
         });
-        console.log("Note created successfully:", newNote._id);
+    // ...existing code...
 
         userDoc.notesGiven += 1;
         await awardPoints(userDoc, 20, 'note')

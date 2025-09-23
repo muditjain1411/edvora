@@ -11,17 +11,17 @@ const AnsweredQuestions = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (status === 'loading') return; // Wait for session to load
+        if (status === 'loading') return;
         if (session?.user?.email) {
             setUserEmail(session.user.email);
         } else {
-            setUserEmail(null); // No user logged in
+            setUserEmail(null);
         }
         setLoading(false);
     }, [session, status]);
 
     useEffect(() => {
-        if (!userEmail) return; // Don't fetch if no email
+        if (!userEmail) return;
 
         const fetchAnswers = async () => {
             try {
