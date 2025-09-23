@@ -1,6 +1,6 @@
-"use client"
-import React, { useEffect, useState } from 'react'
-import NotesModal from '@/components/NotesModal'
+"use client";
+import React, { useEffect, useState, useCallback } from 'react';  // ← Added useCallback import
+import NotesModal from '@/components/NotesModal';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';  // For redirect
 import dynamic from 'next/dynamic';
@@ -28,11 +28,12 @@ const Notes = () => {
       return;
     }
 
-    console.log("User  email from session:", session.user.email);
     setUserEmail(session.user.email);
   }, [session, status, router]);
 
-  const fetchNotes = async (email = null) => {
+  // ← FIXED: Wrapped in useCallback to stabilize (prevents recreation on every render)
+  // Deps: [userEmail, router] – only re-creates if these change (e.g., after login)
+  const fetchNotes = useCallback(async (email = null) => {
     if (!userEmail) return;  // Explicitly skip if not logged in (client-side gate)
 
     setLoading(true);
@@ -56,16 +57,17 @@ const Notes = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userEmail, router]);  // ← Deps for useCallback: userEmail (used in if-check) and router (for redirect)
 
+  // ← FIXED: Added 'fetchNotes' to deps array (now stable via useCallback, no loops)
   useEffect(() => {
     if (userEmail) {
       fetchNotes();  // Fetch only if logged in
     }
-  }, [userEmail]);
+  }, [userEmail, fetchNotes]);  // ← Now includes fetchNotes (satisfies ESLint)
 
   const handleNoteAdded = () => {
-    fetchNotes(userEmail);
+    fetchNotes(userEmail);  // ← Uses the stable callback
     setModalOpen(false);
   };
 

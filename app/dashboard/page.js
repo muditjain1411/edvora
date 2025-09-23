@@ -8,7 +8,7 @@ import askImage from '@/public/ask.svg'
 import { useRouter } from 'next/navigation'
 import AskQuestionModal from '@/components/AskQuestionModal'
 
-const dashboard = () => {
+const Dashboard = () => {
     const { data: session, status } = useSession();
     const [modalOpen, setModalOpen] = useState(false)
     const [userData, setUserData] = useState({
@@ -177,4 +177,4 @@ const dashboard = () => {
     )
 }
 
-export default dashboard
+export default Dashboard

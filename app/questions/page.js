@@ -6,8 +6,9 @@ import QuestionCard from '@/components/QuestionCard'
 import SearchBar from '@/components/SearchBar'
 import { useSession } from 'next-auth/react'
 import AskQuestionModal from '@/components/AskQuestionModal'
+import { Suspense } from 'react'
 
-const QuestionsPage = () => {
+const QuestionsContent = () => {
     const { data: session, status } = useSession();
     const [modalOpen, setModalOpen] = useState(false)
     const [questions, setQuestions] = useState([]);
@@ -116,5 +117,10 @@ const QuestionsPage = () => {
         </>
     )
 }
-
-export default QuestionsPage
+export default function QuestionsPage() {
+    return (
+        <Suspense fallback={<div>Loading questions...</div>}>
+            <QuestionsContent />
+        </Suspense>
+    );
+}
