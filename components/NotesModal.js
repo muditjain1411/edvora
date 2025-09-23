@@ -66,7 +66,7 @@ export default function NotesModal({ isOpen, onClose, email, onNoteAdded }) {
             <div className="fixed inset-0 flex items-center justify-center z-50 p-4">
                 <form
                     onSubmit={handleSubmit}
-                    className="rounded-lg shadow-lg max-w-[50vw] w-full p-6 relative bg-neutral-800 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))] h-[80vh] overflow-y-auto"
+                    className="rounded-lg shadow-lg max-w-[50vw] w-full p-6 relative bg-neutral-800 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <h2 className="text-2xl font-semibold mb-4 text-white">Add Note</h2>

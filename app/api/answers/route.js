@@ -1,7 +1,6 @@
 import dbConnect from "@/lib/dbConnect";
 import Answers from "@/models/Answers";
 import Users from "@/models/Users";
-import { awardPoints } from "@/lib/gamification"
 
 export async function GET(req) {
     await dbConnect();
@@ -84,13 +83,12 @@ export async function POST(req) {
             answer: answer,
             imageUrls: imageUrls || [],
             answeredBy: userDoc._id
-        })
-
-        await awardPoints(userDoc, 10, 'answer', { answerGiven: 1 })
+        });
+        await Users.findByIdAndUpdate(userDoc._id, { $inc: { answerGiven: 1 } });
 
         console.log("Updated user with new answer");
-        
-        const populatedAnswer = await Answers.findById(newAnswer._id).populate("answeredBy")
+        // Return the new answer populated for immediate use
+        const populatedAnswer = await Answers.findById(newAnswer._id).populate("answeredBy");
         return new Response(
             JSON.stringify({ message: "Answer created", answer: populatedAnswer }),
             { status: 201 }
