@@ -4,8 +4,9 @@ import EmailProvider from "next-auth/providers/email";
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 import clientPromise from "@/lib/mongodb";
 import dbConnect from "@/lib/dbConnect";
-import Users from "@/models/Users"; // your custom schema
-// import resend from "resend" // if you configured resend
+import Users from "@/models/Users"; 
+import { updateStreak } from "@/lib/gamification";
+// import { Resend } from "resend";
 
 const handler = NextAuth({
     adapter: MongoDBAdapter(clientPromise),
@@ -51,6 +52,10 @@ const handler = NextAuth({
                     name: user.name,
                     profilePic: user.image, // match schema field name
                 });
+            }
+
+            if (existingUser) {
+                await updateStreak(existingUser);
             }
 
             return true; // allow sign in
