@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import Users from "@/models/Users";
 import Questions from "@/models/Questions";
+import { awardPoints } from "@/lib/gamification"
 
 export async function GET(req) {
     await dbConnect();
@@ -105,7 +106,8 @@ export async function POST(req) {
 
         const newQuestion = await Questions.create({ question: question, askedBy: userDoc._id });
         console.log("Created question:", newQuestion);
-        await Users.findByIdAndUpdate(userDoc._id, { $inc: { questionAsked: 1 } });
+        
+        await awardPoints(userDoc, 10, 'question', { questionAsked: 1 });
 
         console.log("Updated user with new question");
 

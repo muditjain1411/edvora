@@ -1,6 +1,7 @@
 import dbConnect from "@/lib/dbConnect";
 import Users from "@/models/Users";
 import Notes from "@/models/Notes";
+import { awardPoints } from '@/lib/gamification'
 
 export async function GET(req) {
     await dbConnect();
@@ -94,7 +95,10 @@ export async function POST(req) {
             pdfUrl,
             givenBy: userDoc._id,
         });
-        console.log("Note created successfully:", newNote._id);  // Debug log
+        console.log("Note created successfully:", newNote._id);
+
+        userDoc.notesGiven += 1;
+        await awardPoints(userDoc, 20, 'note')
 
         const populatedNote = await Notes.findById(newNote._id).populate("givenBy", "name email");
 
