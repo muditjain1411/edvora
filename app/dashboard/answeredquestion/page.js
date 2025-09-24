@@ -69,7 +69,7 @@ const AnsweredQuestions = () => {
                 </Link>
                 <div className='ml-4 mb-4'>
                     <h1 className='text-3xl font-bold'>Your Answers</h1>
-                    <p className='text-gray-400 mt-2'>Questions you've answered.</p>
+                    <p className='text-gray-400 mt-2'>Questions you&apos;ve answered.</p>
                 </div>
                 <div className='flex flex-col space-y-4 w-full'>
                     {answers.length > 0 ? (
@@ -85,7 +85,7 @@ const AnsweredQuestions = () => {
                         ))
                     ) : (
                         <p className="text-gray-400">
-                            You haven't answered any questions yet.{' '}
+                            You haven&apos;t answered any questions yet.{' '}
                             <Link href="/questions" className="text-blue-400 hover:underline">
                                 Browse questions to answer
                             </Link>

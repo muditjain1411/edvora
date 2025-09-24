@@ -28,7 +28,7 @@ export default function LoginPage() {
             <div className="flex flex-col items-center min-h-[90%] w-[33%] space-y-4 m-auto text-center text-gray-300 rounded-lg pt-15 mt-5 font-bold">
                 <h3 className="text-3xl">Ask, Answer, and Learn Together</h3>
                 <p className="text-5xs">
-                    Join our academic community to ask questions, answer other's queries, earn points and badges through gamification, and share helpful notes on various topics for fellow learners.
+                    Join our academic community to ask questions, answer other&apos;s queries, earn points and badges through gamification, and share helpful notes on various topics for fellow learners.
                 </p>
 
                 <div className="max-w-md w-full m-auto p-2 rounded shadow">
