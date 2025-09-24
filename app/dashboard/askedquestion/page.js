@@ -69,7 +69,7 @@ const AskedQuestions = () => {
                 </Link>
                 <div className='ml-4 mb-4'>
                     <h1 className='text-3xl font-bold'>Your Asked Questions</h1>
-                    <p className='text-gray-400 mt-2'>Questions you&aposve posted.</p>
+                    <p className='text-gray-400 mt-2'>Questions you've posted.</p>
                 </div>
                 <div className='flex flex-col space-y-4 w-full'>
                     {questions.length > 0 ? (
@@ -83,7 +83,7 @@ const AskedQuestions = () => {
                             </Link>
                         ))
                     ) : (
-                        <p className="text-gray-400">You haven&apost asked any questions yet. <Link href="/ask" className="text-blue-400 hover:underline">Ask one now!</Link></p>
+                        <p className="text-gray-400">You haven't asked any questions yet. <Link href="/ask" className="text-blue-400 hover:underline">Ask one now!</Link></p>
                     )}
                 </div>
             </div>
