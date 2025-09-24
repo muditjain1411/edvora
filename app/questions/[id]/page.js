@@ -28,43 +28,45 @@ export default function AnswersPage() {
         }
     }, [session, status]);
 
+    // Fetch question and answers
+    const fetchQuestion = async () => {
+        try {
+            const response = await fetch(`/api/questions?questionId=${id}`);
+            const data = await response.json();
+            if (response.ok) {
+                setQuestionText(data[0]?.question || "");
+            } else {
+                console.error("Error fetching question:", data.error);
+            }
+        } catch (error) {
+            console.error("Network error fetching question:", error);
+        }
+    };
+
+    const fetchAnswers = async () => {
+        try {
+            const response = await fetch(`/api/answers?questionId=${id}`);
+            const data = await response.json();
+            if (response.ok) {
+                setAnswers(data);
+            } else {
+                console.error("Error fetching answers:", data.error);
+            }
+        } catch (error) {
+            console.error("Network error fetching answers:", error);
+        }
+    };
+
     useEffect(() => {
         if (!id) return;
-
-        const fetchQuestion = async () => {
-            try {
-                const response = await fetch(`/api/questions?questionId=${id}`);
-                const data = await response.json();
-                console.log("Fetched question data:", data);
-                if (response.ok) {
-                    setQuestionText(data[0]?.question || ""); // Safe chaining
-                    console.log("Question text set to:", data[0]?.question);
-                } else {
-                    console.error("Error fetching question:", data.error);
-                }
-            } catch (error) {
-                console.error("Network error fetching question:", error);
-            }
-        };
-
-        const fetchAnswers = async () => {
-            try {
-                const response = await fetch(`/api/answers?questionId=${id}`);
-                const data = await response.json();
-                console.log("Fetched answers data:", data);
-                if (response.ok) {
-                    setAnswers(data);
-                } else {
-                    console.error("Error fetching answers:", data.error);
-                }
-            } catch (error) {
-                console.error("Network error fetching answers:", error);
-            }
-        };
-
         fetchQuestion();
         fetchAnswers();
     }, [id]);
+
+    // Callback to refresh answers after modal submission
+    const handleAnswerSubmitted = async () => {
+        await fetchAnswers();
+    };
 
     if (status === 'loading' || loading) {
         return (
@@ -98,7 +100,7 @@ export default function AnswersPage() {
                 <div className="flex flex-col gap-2 mt-3">
                     {answers.length > 0 ? (
                         answers.slice().reverse().map((a, idx) => (
-                            <Link href={`/questions/${a.questionId._id}/${a._id}`} key={a._id || idx}>
+                            <Link href={`/questions/${a.questionId}/${a._id}`} key={a._id || idx}>
                                 <AnswerCard
                                     answer={a.answer}
                                     username={a.answeredBy?.name || 'Anonymous'}
@@ -125,9 +127,10 @@ export default function AnswersPage() {
             <AnswerModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
-                email={userEmail || undefined} // Only pass if logged in
+                email={userEmail || undefined}
                 questionText={questionText}
                 questionId={id}
+                onAnswerSubmitted={handleAnswerSubmitted}
             />
         </main>
     );

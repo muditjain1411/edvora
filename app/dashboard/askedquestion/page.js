@@ -83,7 +83,7 @@ const AskedQuestions = () => {
                             </Link>
                         ))
                     ) : (
-                        <p className="text-gray-400">You haven't asked any questions yet. <Link href="/ask" className="text-blue-400 hover:underline">Ask one now!</Link></p>
+                        <p className="text-gray-400">You haven't asked any questions yet. <Link href="/questions" className="text-blue-400 hover:underline">Ask one now!</Link></p>
                     )}
                 </div>
             </div>

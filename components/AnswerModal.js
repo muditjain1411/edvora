@@ -2,7 +2,7 @@ import { useState } from "react";
 import ImageUploader from '@/components/ImageUploader'
 import { uploadFile } from '@/lib/uploadImageFirebase'
 
-export default function AnswerModal({ isOpen, onClose, email, questionText, questionId }) {
+export default function AnswerModal({ isOpen, onClose, email, questionText, questionId, onAnswerSubmitted }) {
     const [Answer, setAnswer] = useState("");
     const [images, setImages] = useState([]);
 
@@ -10,21 +10,13 @@ export default function AnswerModal({ isOpen, onClose, email, questionText, ques
 
     async function handleSubmit(e) {
         e.preventDefault();
-        
-
         if (Answer.trim() === "") return alert("Answer cannot be empty");
-
         try {
             const imageUrls = [];
-            // Upload images to Firebase Storage
             for (const image of images) {
                 const url = await uploadFile(image);
-                console.log("File uploaded at:", url);
                 imageUrls.push(url);
-
             }
-
-            // Submit answer and image URLs to your API
             const res = await fetch("/api/answers", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -35,16 +27,16 @@ export default function AnswerModal({ isOpen, onClose, email, questionText, ques
                     imageUrls: imageUrls,
                 }),
             });
-
             if (!res.ok) {
                 throw new Error("Failed to submit answer");
             }
-
             alert("Answer submitted!");
             setAnswer("");
             setImages([]);
+            if (typeof onAnswerSubmitted === 'function') {
+                await onAnswerSubmitted();
+            }
             onClose();
-
         } catch (error) {
             alert(error.message);
         }

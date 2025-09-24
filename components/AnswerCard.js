@@ -35,7 +35,7 @@ export default function AnswerCard({ username, answer, likesCount, dislikesCount
                     aria-label="Like">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5"
+                        className="h-5 w-5 rotate-180"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -53,7 +53,7 @@ export default function AnswerCard({ username, answer, likesCount, dislikesCount
                     aria-label="Dislike">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 rotate-180"
+                        className="h-5 w-5 "
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"

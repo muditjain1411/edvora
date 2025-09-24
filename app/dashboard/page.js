@@ -7,6 +7,8 @@ import Sidebar from '@/components/Sidebar'
 import askImage from '@/public/ask.svg'
 import { useRouter } from 'next/navigation'
 import AskQuestionModal from '@/components/AskQuestionModal'
+import notesIcon from '@/public/notes.svg'
+import questionIcon from '@/public/question.svg'
 
 const Dashboard = () => {
     const { data: session, status } = useSession();
@@ -111,30 +113,30 @@ const Dashboard = () => {
             <div className="min-h-[78vh] p-8 flex-4/5 w-full mt-2 mb-2 border-l-1">
                 <div className='w-full h-full grid-cols-2 md:grid-cols-4 grid-rows-2 gap-6 grid '> {/* Updated: 4 cols for new cards */}
                     {/* Existing: Questions Asked */}
-                    <div id="QuesAsked" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4">
+                    <div id="QuesAsked" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4 bg-gray-600/20">
                         <h2 className='text-2xl'>Questions Asked</h2>
-                        <div className='text-5xl font-bold'>{questionsAsked}</div>
+                        <div className='text-5xl font-bold text-blue-300'>{questionsAsked}</div>
                     </div>
                     {/* Existing: Questions Answered */}
-                    <div id="quesAnswered" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4">
+                    <div id="quesAnswered" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4 bg-gray-600/20">
                         <h2 className='text-2xl'>Questions Answered</h2>
-                        <div className='text-5xl font-bold'>{questionsAnswered}</div>
+                        <div className='text-5xl font-bold text-blue-300'>{questionsAnswered}</div>
                     </div>
                     {/* New: Notes Given */}
-                    <div id="notesGiven" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4">
+                    <div id="notesGiven" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4 bg-gray-600/20">
                         <h2 className='text-2xl'>Notes Given</h2>
-                        <div className='text-5xl font-bold'>{notesGiven}</div>
+                        <div className='text-5xl font-bold text-blue-300'>{notesGiven}</div>
                     </div>
                     {/* New: Streak */}
-                    <div id="streak" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4 bg-yellow-900/20"> {/* Subtle yellow bg */}
+                    <div id="streak" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4 bg-gray-600/20"> {/* Subtle yellow bg */}
                         <h2 className='text-2xl'>Login Streak</h2>
-                        <div className='text-5xl font-bold text-yellow-400'>{streak} days</div>
-                        <p className='text-sm text-yellow-300'>Next: +{10 * (streak + 1)} pts</p>
+                        <div className='text-4xl font-bold text-blue-300'>{streak} days</div>
+                        <p className='text-sm text-blue-200'>Next: +{10 * (streak + 1)} pts</p>
                     </div>
                     {/* New: Points (spans row for emphasis) */}
-                    <div className="border-2 border-neutral-700 w-full h-30 col-span-full flex flex-col justify-center items-center text-center rounded-lg p-4 bg-blue-900/20">
+                    <div className="border-2 border-neutral-700 w-full h-30 col-span-full flex flex-col justify-center items-center text-center rounded-lg p-4 bg-gray-600/20">
                         <h2 className='text-2xl'>Total Points</h2>
-                        <div className='text-6xl font-bold text-blue-400'>{points}</div>
+                        <div className='text-6xl font-bold text-blue-300'>{points}</div>
                     </div>
                     
                     {/* <div id="AILimitLeft" className="border-2 border-neutral-700 w-full h-30 flex flex-col justify-center items-center text-center rounded-lg p-4">
@@ -149,16 +151,16 @@ const Dashboard = () => {
                     <div className='grid grid-cols-6 gap-4 mt-4'>
                         <button onClick={() => setModalOpen(true)} className="cursor-pointer">
                             <div className='flex flex-col justify-center items-center p-4'>
-                                <Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="ask"></Image>
+                                <Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={60} height={60} alt="ask"></Image>
                                 <h3 className="text-white font-bold py-2 px-4 text-center">Ask a Question</h3>
                             </div>
                         </button>
                         <div className='flex flex-col justify-center items-center p-4'>
-                            <Link href="/questions"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="view"></Image></Link>
+                            <Link href="/questions"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={questionIcon} width={60} height={60} alt="view"></Image></Link>
                             <h3 className="text-white font-bold py-2 px-4 text-center">View Questions</h3>
                         </div>
                         <div className='flex flex-col justify-center items-center p-4'>
-                            <Link href="/notes"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={askImage} width={70} height={70} alt="view"></Image></Link>
+                            <Link href="/notes"><Image className='bg-gray-300 rounded-full ring-neutral-700 ring-2' src={notesIcon} width={60} height={60} alt="view"></Image></Link>
                             <h3 className="text-white font-bold py-2 px-4 text-center">Notes</h3>
                         </div>
                         <AskQuestionModal
