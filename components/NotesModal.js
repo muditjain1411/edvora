@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { uploadFile } from '@/lib/uploadPdfFirebase';
-import PdfUploader from '@/components/PdfUploader';
+import { PdfUploader } from '@/components/PdfUploader';
 
 export default function NotesModal({ isOpen, onClose, email, onNoteAdded }) {
     const [title, setTitle] = useState("");
