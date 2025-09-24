@@ -1,4 +1,6 @@
 'use client';
+import Image from 'next/image';
+
 export default function ImageUploader({ images, setImages }) {
 
     function handleImageChange(e) {
@@ -52,9 +54,11 @@ export default function ImageUploader({ images, setImages }) {
                                     rel="noopener noreferrer"
                                     className="block w-full h-32"
                                 >
-                                    <img
+                                    <Image
                                         src={imageUrl}
                                         alt={`preview ${idx}`}
+                                        width={128}
+                                        height={128}
                                         className="object-cover w-full h-32"
                                         onLoad={() => URL.revokeObjectURL(image)}
                                     />

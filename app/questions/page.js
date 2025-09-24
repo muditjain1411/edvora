@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import QuestionCard from '@/components/QuestionCard'
@@ -27,7 +27,7 @@ const QuestionsContent = () => {
     }, [session, status]);
 
     // Extracted refetch function for reuse (e.g., after modal success)
-    const refetchQuestions = async () => {
+    const refetchQuestions = useCallback(async () => {
         const currentSearch = searchParams.get('search') || '';
         const params = currentSearch ? `?search=${encodeURIComponent(currentSearch)}` : '';
         const url = `/api/questions${params}`;
@@ -39,13 +39,13 @@ const QuestionsContent = () => {
         }
         const data = await response.json();
         setQuestions(data);
-    };
+    }, [searchParams]);
 
     useEffect(() => {
         const currentSearch = searchParams.get('search') || '';
         setSearchTerm(currentSearch); // Update input value
         refetchQuestions(); // Use shared refetch
-    }, [searchParams]);
+    }, [searchParams, refetchQuestions]);
 
     const handleSearch = (query) => {
         const trimmedQuery = query.trim();

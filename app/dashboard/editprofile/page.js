@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -157,7 +158,7 @@ const EditProfile = () => {
             setSelectedFile(null); // Clear file
 
             alert('Profile updated successfully!');
-            router.push('/profile'); // Redirect after save
+            
         } catch (err) {
             setError(err.message);
             console.error(err);
@@ -196,6 +197,12 @@ const EditProfile = () => {
 
     return (
         <main className="text-white min-h-screen bg-transparent p-8">
+            <Link
+                href="/dashboard"
+                className="text-blue-400 hover:underline mb-6 ml-10 inline-block text-lg font-semibold"
+            >
+                ← Back to Dashboard
+            </Link>
             {/* Top Edit Profile Option/Header */}
             <div className="flex justify-between items-center mb-8 w-full max-w-md mx-auto">
                 <h1 className="text-3xl font-bold">Edit Profile</h1>
@@ -226,11 +233,13 @@ const EditProfile = () => {
                         onMouseEnter={() => setIsHoveringPic(true)}
                         onMouseLeave={() => setIsHoveringPic(false)}
                     >
-                        <img
+                        <Image
                             src={getCurrentImageSrc()}
                             alt="Profile Picture"
+                            width={128}
+                            height={128}
                             className="w-full h-full object-cover"
-                            onError={(e) => { e.target.src = getFallbackImage(); }} // Fallback on load error
+                            onError={(e) => { e.target.src = getFallbackImage(); }}
                         />
                         {isHoveringPic && (
                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-200">
@@ -296,13 +305,6 @@ const EditProfile = () => {
                     <p className="text-red-400 text-sm text-center">{error}</p>
                 )}
             </form>
-
-            {/* Back Link */}
-            <div className="mt-8 text-center">
-                <Link href="/profile" className="text-blue-400 hover:underline">
-                    ← Back to Profile
-                </Link>
-            </div>
         </main>
     );
 };

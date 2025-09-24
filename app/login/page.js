@@ -13,7 +13,7 @@ export default function LoginPage() {
         if (status === "authenticated" && session) {
             router.push("/dashboard");
         }
-    }, [session, router]); // Updated dependency for precision
+    }, [session, router, status]);
 
     if (status === "loading") {
         return (

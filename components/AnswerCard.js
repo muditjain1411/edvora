@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from 'next/image';
 
 export default function AnswerCard({ username, answer, likesCount, dislikesCount, userIcon }) {
     return (
@@ -8,12 +9,14 @@ export default function AnswerCard({ username, answer, likesCount, dislikesCount
             {/* Optional: User Avatar */}
             {userIcon && (
                 <div className="flex items-center mb-2">
-                    <img
+                    <Image
                         src={userIcon}
                         alt={`${username}'s avatar`}
+                        width={32}
+                        height={32}
                         className="w-8 h-8 rounded-full mr-3 object-cover"
                         onError={(e) => {
-                            e.target.style.display = 'none'; // Hide broken images
+                            e.target.style.display = 'none';
                         }}
                     />
                     <div className="text-sm text-neutral-700 font-semibold">

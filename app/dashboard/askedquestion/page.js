@@ -61,6 +61,12 @@ const AskedQuestions = () => {
     return (
         <main className='text-white min-h-screen bg-transparent'>
             <div className='flex flex-col w-[85vw] m-auto pt-8'>
+                <Link
+                    href="/dashboard"
+                    className="text-blue-400 hover:underline mb-6 inline-block text-lg font-semibold"
+                >
+                    ← Back to Dashboard
+                </Link>
                 <div className='ml-4 mb-4'>
                     <h1 className='text-3xl font-bold'>Your Asked Questions</h1>
                     <p className='text-gray-400 mt-2'>Questions you&aposve posted.</p>
@@ -77,7 +83,7 @@ const AskedQuestions = () => {
                             </Link>
                         ))
                     ) : (
-                            <p className="text-gray-400">You haven&apost asked any questions yet. <Link href="/ask" className="text-blue-400 hover:underline">Ask one now!</Link></p>
+                        <p className="text-gray-400">You haven&apost asked any questions yet. <Link href="/ask" className="text-blue-400 hover:underline">Ask one now!</Link></p>
                     )}
                 </div>
             </div>

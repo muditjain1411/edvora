@@ -1,6 +1,6 @@
 "use client"
 import { useSession } from 'next-auth/react'
-import { React, useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Sidebar from '@/components/Sidebar'
@@ -30,13 +30,13 @@ const Dashboard = () => {
     const router = useRouter()
 
     // Updated: Refetch user data (now includes gamification fields)
-    const refetchUserData = () => {
+    const refetchUserData = useCallback(() => {
         if (!session?.user?.email) return;
         fetch(`/api/users?email=${session.user.email}`)
             .then(res => res.json())
             .then(data => setDbUser(data))
             .catch(() => setDbUser(null))
-    }
+    }, [session]);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -45,13 +45,13 @@ const Dashboard = () => {
         } else {
             setDbUser(null)
         }
-    }, [session]);
+    }, [session, refetchUserData]);
 
     useEffect(() => {
         if (!session && status !== "loading") {
             router.push("/")
         }
-    }, [status, router])
+    }, [status, router, session])
 
     useEffect(() => {
         if (session && dbuser) {

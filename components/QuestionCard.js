@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export default function QuestionCard({
     question,
@@ -17,9 +18,11 @@ export default function QuestionCard({
             <div className="flex items-center justify-between border-t pt-4">
                 {/* User info */}
                 <div className="flex items-center space-x-3">
-                    <img
+                    <Image
                         src={userIcon}
                         alt={`${userName} icon`}
+                        width={40}
+                        height={40}
                         className="w-10 h-10 rounded-full object-cover"
                     />
                     <span className="font-medium text-white">{userName}</span>
