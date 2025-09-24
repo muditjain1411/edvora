@@ -34,7 +34,7 @@ export default function LoginPage() {
                 <div className="max-w-md w-full m-auto p-2 rounded shadow">
                     <button
                         onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-                        className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
+                        className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition w-full"
                         aria-label="Sign in with Google"
                     >
                         <Image src={googleicon} alt="Google" width={24} height={24} />
