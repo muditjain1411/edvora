@@ -21,7 +21,7 @@ export default function LandingPage() {
             />
             <Link
               href='/questions'
-              className='px-6 py-3 w-3xs h-[50%] bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors'
+              className='bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition'
             >
               Browse All Questions
             </Link>

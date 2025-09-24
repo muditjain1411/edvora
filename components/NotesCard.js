@@ -59,7 +59,7 @@ export default function NotesCard({ title, description, pdfUrl, givenBy, id }) {
               e.stopPropagation();  // Prevent card click
               window.open(fullViewUrl, '_blank', 'noopener,noreferrer');
             }}
-            className="absolute top-2 right-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition z-10"
+            className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
             aria-label="View full PDF in new tab"
           >
             👁️ View Full

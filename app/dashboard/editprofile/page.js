@@ -209,14 +209,14 @@ const EditProfile = () => {
                 <div className="flex space-x-4">
                     <button
                         onClick={handleCancel}
-                        className="px-4 py-2 text-gray-400 border border-gray-600 rounded-lg hover:text-white hover:border-white transition-colors"
+                        className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
                         disabled={saving}
                     >
                         Cancel
                     </button>
                     <button
                         onClick={handleSubmit}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+                        className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
                         disabled={saving}
                     >
                         {saving ? 'Saving...' : 'Save Changes'}
@@ -247,7 +247,7 @@ const EditProfile = () => {
                             </div>
                         )}
                     </div>
-                    {/* File Input (Hidden, click image or button to trigger) */}
+                    
                     <input
                         type="file"
                         accept="image/*"

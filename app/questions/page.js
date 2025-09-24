@@ -89,7 +89,7 @@ const QuestionsContent = () => {
                             isControlled={true}
                             placeholder="Search questions..."
                         />
-                        <button onClick={() => setModalOpen(true)} className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition cursor-pointer">Ask Question</button>
+                        <button onClick={() => setModalOpen(true)} className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition">Ask Question</button>
                     </div>
                     <div id="questions" className='flex flex-col space-y-4 mt-4 mx-auto w-[80vw]'>
                         {questions.length > 0 ? (

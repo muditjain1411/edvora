@@ -80,13 +80,13 @@ export default function AnswerModal({ isOpen, onClose, email, questionText, ques
                         <button
                             type="button"
                             onClick={handleCancel}
-                            className="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 transition"
+                            className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition"
+                            className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
                         >
                             Submit
                         </button>

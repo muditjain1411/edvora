@@ -106,7 +106,7 @@ export default function NotesModal({ isOpen, onClose, email, onNoteAdded }) {
                         <button
                             type="button"
                             onClick={handleCancel}
-                            className="px-4 py-2 rounded-md border border-gray-600 hover:bg-gray-700 text-white transition"
+                            className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition"
                             disabled={submitting}
                         >
                             Cancel
@@ -114,7 +114,7 @@ export default function NotesModal({ isOpen, onClose, email, onNoteAdded }) {
                         <button
                             type="submit"
                             disabled={isSubmitDisabled}
-                            className="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition disabled:bg-gray-600 disabled:cursor-not-allowed"
+                            className="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-2xl cursor-pointer transition disabled:cursor-not-allowed"
                         >
                             {submitting ? 'Submitting...' : 'Submit'}
                         </button>
