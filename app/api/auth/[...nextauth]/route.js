@@ -96,7 +96,7 @@ const handler = NextAuth({
                                 notesGiven: 0,
                                 points: 0,
                                 level: 1,
-                                streak: 1,  // Temp 0; updateStreak will set to 1 for first login
+                                streak: 1,  
                                 badges: [],  // Empty array
                                 achievements: [],  // Empty array
                                 lastLogin: new Date(),  // Set initial for streak logic

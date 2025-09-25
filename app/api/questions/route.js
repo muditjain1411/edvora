@@ -105,7 +105,7 @@ export async function POST(req) {
         const newQuestion = await Questions.create({ question: question, askedBy: userDoc._id });
         
         
-        await awardPoints(userDoc, 10, 'question', { questionAsked: 1 });
+        await awardPoints(userDoc, 0, 'question', { questionAsked: 1 });
 
         
 
