@@ -98,7 +98,7 @@ export default function AchievementsPage() {
               ></div>
             </div>
             <p className="text-sm text-gray-400 mt-2">
-              {Math.floor(pointsToNextLevel - points)} / {pointsToNextLevel} to Level {level + 1}
+              {Math.floor(points % pointsToNextLevel)} / {pointsToNextLevel} to Level {level + 1}
             </p>
           </div>
           <div className="text-center">
