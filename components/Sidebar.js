@@ -4,7 +4,7 @@ import Image from 'next/image'
 import profile from '@/public/profile.svg'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
-// Optional: import { ChevronUpDownIcon } from '@heroicons/react/24/outline'; // For progress bar arrow if needed
+
 
 const Sidebar = ({ name, level, points, profilePic }) => {
     // Progress calculation matches backend logic

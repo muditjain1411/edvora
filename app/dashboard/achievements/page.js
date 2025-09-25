@@ -4,8 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-// Optional: For better icons, install `npm install @heroicons/react` and uncomment below:
-// import { TrophyIcon, BookOpenIcon, QuestionMarkCircleIcon, HeartIcon, StarIcon } from '@heroicons/react/24/outline';
+
 
 export default function AchievementsPage() {
   const { data: session, status } = useSession();
@@ -33,7 +32,7 @@ export default function AchievementsPage() {
       })
       .then(userData => {
         // Compute progress client-side (exponential formula: points for next level increment)
-        const pointsToNextLevel = Math.floor(50 * Math.pow(1.5, userData.level || 1));
+        const pointsToNextLevel = 25 * (userData.level * userData.level + 1) / 2;
         const progress = Math.min(((userData.points || 0) % pointsToNextLevel) / pointsToNextLevel * 100, 100);
         setData({
           points: userData.points || 0,
@@ -99,7 +98,7 @@ export default function AchievementsPage() {
               ></div>
             </div>
             <p className="text-sm text-gray-400 mt-2">
-              {Math.floor(points % pointsToNextLevel)} / {pointsToNextLevel} to Level {level + 1}
+              {Math.floor(pointsToNextLevel - points)} / {pointsToNextLevel} to Level {level + 1}
             </p>
           </div>
           <div className="text-center">
